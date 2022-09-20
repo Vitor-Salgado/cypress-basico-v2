@@ -10,6 +10,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     })
     it('preenche os campos obrigatórios e envia o formulário',function(){
         const longText = 'teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,teste,'
+        cy.clock()
         cy.get('#firstName').type('Vitor')
         cy.get('#lastName').type('Salgado')
         cy.get('#email').type('Teste@exemplo.com')
@@ -17,8 +18,11 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('button[type="submit"]').click()
 
         cy.get('.success').should('be.visible')
+        cy.tick(3000)
+        cy.get('.success').should('not.be.visible')
     })
     it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function(){
+        cy.clock()
         cy.get('#firstName').type('Vitor')
         cy.get('#lastName').type('Salgado')
         cy.get('#email').type('teste@exemplo,com')
@@ -26,11 +30,15 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         cy.get('button[type="submit"]').click()
 
         cy.get('.error').should('be.visible')
+        cy.tick(3000)
+        cy.get('.error').should('not.be.visible')
+
     })
     it('telefone sempre vazio com valor nao numerico' , function(){
         cy.get('#phone').type('abcde').should('have.value', '')
     })
     it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário',function(){
+        cy.clock()
         cy.get('#firstName').type('Vitor')
         cy.get('#lastName').type('Salgado')
         cy.get('#email').type('teste@exemplo.com')
@@ -40,24 +48,35 @@ describe('Central de Atendimento ao Cliente TAT', function() {
         
     
         cy.get('.error').should('be.visible')
+        cy.tick(3000)
+        cy.get('.error').should('not.be.visible')
     })
     it('preenche e limpa os campos nome, sobrenome, email e telefone', function(){
         cy.get('#firstName').type('Vitor').should('have.value','Vitor').clear().should('have.value','')
     })
     it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios',function(){
+        cy.clock()
         cy.get('button[type="submit"]').click()
 
         cy.get('.error').should('be.visible')
+        cy.tick(3000)
+        cy.get('.error').should('not.be.visible')
     })
     it('envia o formuário com sucesso usando um comando customizado',function(){
+        cy.clock()
         cy.fillMandatoryFieldsAndSubmit()
 
         cy.get('.success').should('be.visible')
+        cy.tick(3000)
+        cy.get('.success').should('not.be.visible')
     })
     it('testando com contains',function(){
+        cy.clock()
         cy.contains('button', 'Enviar').click()
 
         cy.get('.error').should('be.visible')
+        cy.tick(3000)
+        cy.get('.error').should('not.be.visible')
     })
     it('seleciona um produto (YouTube) por seu texto', function(){
         cy.get('#product').select('YouTube').should('have.value','youtube')
