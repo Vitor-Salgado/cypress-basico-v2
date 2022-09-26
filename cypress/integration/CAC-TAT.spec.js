@@ -171,7 +171,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
             expect(body).to.include('CAC TAT')
         })
       })
-      it.only('encontrando o gato',function(){
+      it('encontrando o gato',function(){
         cy.get('#cat').invoke('show').should('be.visible')
       })
   })
